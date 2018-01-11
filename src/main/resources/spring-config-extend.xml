@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+          
+	<!-- 短信发送 -->
+	<bean id="smsDao" class="cn.admin.modules.sms.dao.SmsDaoIml" />
+	<bean id="smsSender" class="cn.admin.core.utils.sms.sender.HuyiSmsSender" />
+	<bean id="smsHelper" class="cn.admin.core.disruptor.sms.SmsHelper">
+	    <!-- 发送短信处理进程数 -->
+		<property name="handlerCount" value="2" />
+		<!-- 发送短信并发缓冲大小 -->
+		<property name="bufferSize" value="1024" />
+		<!-- 短信发送器 -->
+		<property name="smsSender" ref="smsSender" />
+		<!--响应的DAO -->
+		<property name="smsDao" ref="smsDao" />
+	</bean>
+</beans>
